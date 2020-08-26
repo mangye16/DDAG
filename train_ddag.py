@@ -398,18 +398,20 @@ def test(epoch):
 
     # evaluation
     if dataset == 'regdb':
-        cmc, mAP = eval_regdb(-distmat, query_label, gall_label)
-        cmc_att, mAP_att = eval_regdb(-distmat_att, query_label, gall_label)
+        cmc, mAP, mINP = eval_regdb(-distmat, query_label, gall_label)
+        cmc_att, mAP_att, mINP_att = eval_regdb(-distmat_att, query_label, gall_label)
     elif dataset == 'sysu':
-        cmc, mAP = eval_sysu(-distmat, query_label, gall_label, query_cam, gall_cam)
-        cmc_att, mAP_att = eval_sysu(-distmat_att, query_label, gall_label, query_cam, gall_cam)
+        cmc, mAP, mINP = eval_sysu(-distmat, query_label, gall_label, query_cam, gall_cam)
+        cmc_att, mAP_att, mINP_att = eval_sysu(-distmat_att, query_label, gall_label, query_cam, gall_cam)
     print('Evaluation Time:\t {:.3f}'.format(time.time() - start))
 
     writer.add_scalar('rank1', cmc[0], epoch)
     writer.add_scalar('mAP', mAP, epoch)
     writer.add_scalar('rank1_att', cmc_att[0], epoch)
     writer.add_scalar('mAP_att', mAP_att, epoch)
-    return cmc, mAP, cmc_att, mAP_att
+    writer.add_scalar('mAP_att', mAP_att, epoch)
+    writer.add_scalar('mINP_att', mINP_att, epoch)
+    return cmc, mAP, mINP, cmc_att, mAP_att, mINP_att
 
 
 # training
@@ -441,17 +443,17 @@ for epoch in range(start_epoch, 81 - start_epoch):
         print('Test Epoch: {}'.format(epoch), file=test_log_file)
 
         # testing
-        cmc, mAP, cmc_att, mAP_att = test(epoch)
+        cmc, mAP, mINP, cmc_att, mAP_att, mINP_att = test(epoch)
         # log output
-        print('FC:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}'.format(
-            cmc[0], cmc[4], cmc[9], cmc[19], mAP))
-        print('FC:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}'.format(
-            cmc[0], cmc[4], cmc[9], cmc[19], mAP), file=test_log_file)
+        print('FC:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}| mINP: {:.2%}'.format(
+            cmc[0], cmc[4], cmc[9], cmc[19], mAP, mINP))
+        print('FC:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}| mINP: {:.2%}'.format(
+            cmc[0], cmc[4], cmc[9], cmc[19], mAP, mINP), file=test_log_file)
 
-        print('FC_att:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}'.format(
-            cmc_att[0], cmc_att[4], cmc_att[9], cmc_att[19], mAP_att))
-        print('FC_att:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}'.format(
-            cmc_att[0], cmc_att[4], cmc_att[9], cmc_att[19], mAP_att), file=test_log_file)
+        print('FC_att:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}| mINP: {:.2%}'.format(
+            cmc_att[0], cmc_att[4], cmc_att[9], cmc_att[19], mAP_att, mINP_att))
+        print('FC_att:   Rank-1: {:.2%} | Rank-5: {:.2%} | Rank-10: {:.2%}| Rank-20: {:.2%}| mAP: {:.2%}| mINP: {:.2%}'.format(
+            cmc_att[0], cmc_att[4], cmc_att[9], cmc_att[19], mAP_att, mINP_att), file=test_log_file)
         test_log_file.flush()
         
         # save model
