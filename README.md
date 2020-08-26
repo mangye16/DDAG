@@ -9,7 +9,15 @@ The goal of this work is to learn a robust and discriminative cross-modality rep
 
 - Cross-modality Graph Structured Attention (CGSA): It enhances the feature by incorporating the neighborhood information across two modalities.
 
-The code has been tested in Python 3.7, PyTorch=1.0
+### Results on the SYSU-MM01 Dataset
+Method |Datasets    | Rank@1  | mAP |  mINP | 
+|------| --------      | -----  |  -----  | ----- |
+| AGW [[1](https://github.com/mangye16/Cross-Modal-Re-ID-baseline)]  |#SYSU-MM01 (All-Search)    | ~ 47.50%  | ~ 47.65% | ~ 35.30% | 
+| DDAG|#SYSU-MM01 (All-Search)  | ~ 54.75%  | ~ 53.02% | ~39.62% |
+| AGW [[1](https://github.com/mangye16/Cross-Modal-Re-ID-baseline)] |#SYSU-MM01 (Indoor-Search)    | ~ 54.17% | ~ 62.97% | ~ 59.23%| 
+| DDAG|#SYSU-MM01 (Indoor-Search)  | ~ 61.02% | ~ 67.98% | ~ 62.61%|
+
+*The code has been tested in Python 3.7, PyTorch=1.0. Both of these two datasets may have some fluctuation due to random spliting
 
 ### 1. Prepare the datasets.
 
@@ -48,7 +56,7 @@ You may need manually define the data path first.
 
 Test a model on SYSU-MM01 or RegDB dataset by 
   ```bash
-python test.py --mode all --resume 'model_path' --gpu 1 --dataset sysu
+python test_ddag.py --dataset sysu --mode all --wpa --graph --gpu 1 --resume 'model_path' 
 ```
   - `--dataset`: which dataset "sysu" or "regdb".
   
@@ -56,7 +64,7 @@ python test.py --mode all --resume 'model_path' --gpu 1 --dataset sysu
   
   - `--trial`: testing trial (only for RegDB dataset).
   
-  - `--resume`: the saved model path.
+  - `--resume`: the saved model path. ** Important **
   
   - `--gpu`:  which gpu to run.
 
