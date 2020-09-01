@@ -135,6 +135,8 @@ if dataset =='sysu':
 
     
     queryset = TestData(query_img, query_label, transform = transform_test, img_size =(args.img_w, args.img_h))
+    query_loader = data.DataLoader(queryset, batch_size=args.test_batch, shuffle=False, num_workers=4)
+    
 elif dataset =='regdb':
     # training set
     trainset = RegDBData(data_path, args.trial, transform=transform_train)
@@ -148,7 +150,6 @@ elif dataset =='regdb':
     gallset  = TestData(gall_img, gall_label, transform = transform_test, img_size =(args.img_w,args.img_h))
     gall_loader  = data.DataLoader(gallset, batch_size=args.test_batch, shuffle=False, num_workers=args.workers)
 
-query_loader = data.DataLoader(queryset, batch_size=args.test_batch, shuffle=False, num_workers=4)
 print('Data Loading Time:\t {:.3f}'.format(time.time()-end))
 
 feature_dim = 2048
