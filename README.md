@@ -1,7 +1,7 @@
 # DDAG
 Pytorch Code of DDAG for Visible-Infrared Person Re-Identification in ECCV 2020. [PDF](https://arxiv.org/pdf/2007.09314.pdf)
 
-A MindSpore implementation of our DDAG method is [HERE](https://gitee.com/mindspore/models/tree/master/research/cv/DDAG). Thanks to Zhiwei Zhang zhangzw12319@163.com.
+A Huawei MindSpore implementation of our DDAG method is [HERE](https://gitee.com/mindspore/models/tree/master/research/cv/DDAG). Thanks to Zhiwei Zhang zhangzw12319@163.com.
 
 ## Highlight
 
